@@ -3,7 +3,6 @@
 namespace MarvenThieme\LaravelAuthorizationLogger;
 
 use Illuminate\Support\Facades\Gate;
-use MarvenThieme\LaravelAuthorizationLogger\Commands\LaravelAuthorizationLoggerCommand;
 use MarvenThieme\LaravelAuthorizationLogger\Services\AuthorizationDenialLogger;
 use MarvenThieme\LaravelAuthorizationLogger\Services\RequestBodySanitizer;
 use Spatie\LaravelPackageTools\Package;
@@ -23,7 +22,7 @@ class LaravelAuthorizationLoggerServiceProvider extends PackageServiceProvider
         // ->hasCommand(LaravelAuthorizationLoggerCommand::class);
     }
 
-    public function registeringPackage()
+    public function registeringPackage(): void
     {
         parent::registeringPackage();
 

@@ -4,8 +4,6 @@ namespace MarvenThieme\LaravelAuthorizationLogger\Services;
 
 class RequestBodySanitizer
 {
-    protected const MAX_BODY_SIZE = 10240; // 10 KB
-
     public function sanitize(array $data): array
     {
         return $this->sanitizeRecursive($data);
@@ -13,12 +11,12 @@ class RequestBodySanitizer
 
     public function exceedsMaxSize(string $jsonData): bool
     {
-        return strlen($jsonData) > self::MAX_BODY_SIZE;
+        return strlen($jsonData) > config('authorization-logger.max_body_size');
     }
 
     public function getMaxSizeInKb(): int
     {
-        return (int) (self::MAX_BODY_SIZE / 1024);
+        return (int) (config('authorization-logger.max_body_size') / 1024);
     }
 
     protected function sanitizeRecursive(array $data): array
