@@ -7,9 +7,7 @@ class UserContextData
     public function __construct(
         public string $type,
         public string $ipAddress,
-        public ?string $id = null,
-        public ?string $email = null,
-        public ?string $name = null,
+        public ?string $userId = null,
         public ?array $roles = null,
     ) {}
 }

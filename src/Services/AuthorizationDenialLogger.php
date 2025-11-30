@@ -80,33 +80,22 @@ class AuthorizationDenialLogger
             return new UserContextData(
                 type: 'anonymous',
                 ipAddress: request()->ip(),
-                id: null,
+                userId: null,
             );
         }
 
-        $context = [
-            'id' => $user->id,
-            'type' => 'authenticated',
-            'email' => $user->email ?? null,
-            'ip_address' => request()->ip(),
-        ];
-
-        if (method_exists($user, 'getAttribute')) {
-            $context['name'] = $user->getAttribute('name') ?? null;
-        }
+        $roles = null;
 
         // Add roles if available (using Spatie's HasRoles trait)
         if (method_exists($user, 'getRoleNames')) {
-            $context['roles'] = $user->getRoleNames()->toArray();
+            $roles = $user->getRoleNames()->toArray();
         }
 
         return new UserContextData(
-            type: $context['type'],
-            ipAddress: $context['ip_address'],
-            id: $context['id'],
-            email: $context['email'],
-            name: $context['name'],
-            roles: $context['roles'],
+            type: 'authenticated',
+            ipAddress: request()->ip(),
+            userId: $user->id,
+            roles: $roles,
         );
     }
 
