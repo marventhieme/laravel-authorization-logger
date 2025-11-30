@@ -28,19 +28,15 @@ class AuthorizationDenialLogger
             return;
         }
 
-        // Skip if disabled in config
         if (! config('authorization-logger.enabled', true)) {
             return;
         }
 
-        // Skip configured HTTP methods (usually just UI permission checks)
-        $skipMethods = config('authorization-logger.skip_methods', ['GET', 'HEAD']);
-        if (in_array(request()->method(), $skipMethods)) {
+        if ($this->hasHttpMethodToIgnore()) {
             return;
         }
 
-        // Skip if the authorization check comes from a Resource class
-        if (config('authorization-logger.skip_resource_checks', true) && $this->isCalledFromResource()) {
+        if ($this->isInClassesToIgnore()) {
             return;
         }
 
@@ -200,12 +196,21 @@ class AuthorizationDenialLogger
         );
     }
 
-    protected function isCalledFromResource(): bool
+    protected function hasHttpMethodToIgnore(): bool
+    {
+        if (in_array(request()->method(), config('authorization-logger.http_methods_to_ignore'))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function isInClassesToIgnore(): bool
     {
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 20);
 
         foreach ($trace as $frame) {
-            if (isset($frame['class']) && str_ends_with($frame['class'], 'Resource')) {
+            if (isset($frame['class']) && in_array($frame['class'], config('authorization-logger.classes_to_ignore'))) {
                 return true;
             }
         }

@@ -29,16 +29,19 @@ return [
     /**
      * HTTP methods to skip logging for
      *
-     * Common use case: ['GET', 'HEAD'] to skip UI permission checks
+     * Example: ['GET', 'HEAD'] to skip UI permission checks
      */
-    'skip_methods' => [],
+    'http_methods_to_ignore' => [],
 
     /**
      * This will check, whether the stack trace contains a Resource class.
      * If set to true, authorization checks originating from Resource classes will be skipped.
+     *
      * An example are UI permission checks like `Gate::allows('viewAny', Model::class)` calls from a Resource.
      */
-    'skip_resource_checks' => true,
+    'classes_to_ignore' => [
+        \Illuminate\Http\Resources\Json\JsonResource::class,
+    ],
 
     /**
      * Sensitive fields to filter from request bodies
@@ -73,4 +76,11 @@ return [
      * WriteToLog handler configuration
      */
     'log_channel' => env('AUTHORIZATION_LOGGING_CHANNEL', 'daily'),
+
+    'database' => [
+        /**
+         * Retention period for authorization denial logs in days
+         */
+        'prunable_after_days' => env('AUTHORIZATION_LOGGING_PRUNABLE_AFTER_DAYS', 30),
+    ],
 ];
