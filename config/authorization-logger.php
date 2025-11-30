@@ -1,7 +1,9 @@
 <?php
 
 use MarvenThieme\LaravelAuthorizationLogger\Handlers\DebugToRay;
-use MarvenThieme\LaravelAuthorizationLogger\Handlers\WriteToLog;
+use MarvenThieme\LaravelAuthorizationLogger\Handlers\WriteToDatabase;
+
+// use MarvenThieme\LaravelAuthorizationLogger\Handlers\WriteToLog;
 
 return [
     /**
@@ -20,7 +22,8 @@ return [
      */
     'handlers' => [
         DebugToRay::class,
-        WriteToLog::class,
+        // WriteToLog::class,
+        WriteToDatabase::class,
     ],
 
     /**

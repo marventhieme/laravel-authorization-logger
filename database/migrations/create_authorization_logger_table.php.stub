@@ -8,12 +8,42 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('laravel_authorization_logger_table', function (Blueprint $table) {
+        Schema::create('authorization_denials', function (Blueprint $table) {
             $table->id();
 
-            // add fields
+            // Event information
+            $table->string('event')->default('Authorization Denied');
+            $table->timestamp('logged_at')->index();
+
+            // User context
+            $table->foreignUuid('user_id')
+                ->nullable()
+                ->index()
+                ->constrained('users')
+                ->cascadeOnDelete();
+            $table->string('user_ip_address', 45); // IPv6 max length
+            $table->json('user_roles')->nullable();
+
+            // Policy context
+            $table->string('ability')->index();
+            $table->string('policy_class')->nullable()->index();
+            $table->string('policy_method')->nullable();
+            $table->string('model_class')->nullable()->index();
+            $table->string('model_id')->nullable()->index();
+
+            // Request context
+            $table->string('request_method', 10);
+            $table->text('request_url');
+            $table->string('request_endpoint');
+            $table->string('request_route_name')->nullable()->index();
+            $table->json('request_body')->nullable();
 
             $table->timestamps();
+
+            // Composite indexes for common queries
+            $table->index(['user_id', 'logged_at']);
+            $table->index(['policy_class', 'policy_method']);
+            $table->index(['model_class', 'model_id']);
         });
     }
 };

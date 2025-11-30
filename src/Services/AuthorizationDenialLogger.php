@@ -10,6 +10,7 @@ use MarvenThieme\LaravelAuthorizationLogger\Objects\PolicyContextData;
 use MarvenThieme\LaravelAuthorizationLogger\Objects\RequestContextData;
 use MarvenThieme\LaravelAuthorizationLogger\Objects\UserContextData;
 use RuntimeException;
+use Throwable;
 
 class AuthorizationDenialLogger
 {
@@ -17,6 +18,9 @@ class AuthorizationDenialLogger
         protected RequestBodySanitizer $sanitizer
     ) {}
 
+    /**
+     * @throws Throwable
+     */
     public function log(?Authenticatable $user, string $ability, ?bool $result, array $arguments): void
     {
         // Only log denials
@@ -51,6 +55,9 @@ class AuthorizationDenialLogger
         $this->processHandlers($logData);
     }
 
+    /**
+     * @throws Throwable
+     */
     protected function processHandlers(LogData $logData): void
     {
         $handlers = config('authorization-logger.handlers', []);
@@ -64,11 +71,9 @@ class AuthorizationDenialLogger
                 /** @var LogHandler $handler */
                 $handler = app($handlerClass);
                 $handler->handle($logData);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 if (config('app.debug')) {
-                    logger()->debug("Authorization logger handler failed: {$handlerClass}", [
-                        'error' => $e->getMessage(),
-                    ]);
+                    throw $e;
                 }
             }
         }

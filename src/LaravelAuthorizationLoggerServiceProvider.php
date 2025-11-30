@@ -19,7 +19,7 @@ class LaravelAuthorizationLoggerServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-authorization-logger')
             ->hasConfigFile()
-            ->hasMigration('create_laravel_authorization_logger_table');
+            ->hasMigration('create_authorization_logger_table');
         // ->hasCommand(LaravelAuthorizationLoggerCommand::class);
     }
 
