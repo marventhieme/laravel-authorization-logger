@@ -47,8 +47,21 @@ return [
      */
     'sensitive_fields' => [
         'password',
+        'password_confirmation',
+        'current_password',
         'token',
+        'api_token',
+        'access_token',
+        'refresh_token',
         'secret',
+        'api_secret',
+        'private_key',
+        'authorization',
+        'bearer',
+        'card_number',
+        'cvv',
+        'ssn',
+        'credit_card',
     ],
 
     /**
@@ -59,15 +72,5 @@ return [
     /**
      * WriteToLog handler configuration
      */
-    'log_channel' => env('AUTHORIZATION_LOGGING_CHANNEL', 'stack'),
-
-    /**
-     * DebugToRay handler configuration
-     */
-    'ray_only_local' => true,
-
-    /**
-     * ReportToFlare handler configuration
-     */
-    'flare_only_production' => true,
+    'log_channel' => env('AUTHORIZATION_LOGGING_CHANNEL', 'daily'),
 ];

@@ -4,25 +4,6 @@ namespace MarvenThieme\LaravelAuthorizationLogger\Services;
 
 class RequestBodySanitizer
 {
-    protected const SENSITIVE_FIELDS = [
-        'password',
-        'password_confirmation',
-        'current_password',
-        'token',
-        'api_token',
-        'access_token',
-        'refresh_token',
-        'secret',
-        'api_secret',
-        'private_key',
-        'authorization',
-        'bearer',
-        'card_number',
-        'cvv',
-        'ssn',
-        'credit_card',
-    ];
-
     protected const MAX_BODY_SIZE = 10240; // 10 KB
 
     public function sanitize(array $data): array
@@ -61,7 +42,7 @@ class RequestBodySanitizer
     {
         $fieldLower = strtolower($fieldName);
 
-        foreach (self::SENSITIVE_FIELDS as $sensitiveField) {
+        foreach (config('authorization-logger.sensitive_fields') as $sensitiveField) {
             if (str_contains($fieldLower, $sensitiveField)) {
                 return true;
             }
