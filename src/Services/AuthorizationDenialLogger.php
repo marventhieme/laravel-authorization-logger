@@ -60,7 +60,7 @@ class AuthorizationDenialLogger
 
         foreach ($handlers as $handlerClass) {
             if (! is_subclass_of($handlerClass, LogHandler::class)) {
-                throw new RuntimeException("Log handler {$handlerClass} must implement LogHandler contract.");
+                throw new RuntimeException("Log handler $handlerClass must implement LogHandler contract.");
             }
 
             try {
@@ -193,6 +193,7 @@ class AuthorizationDenialLogger
             endpoint: $request->path(),
             body: $body,
             routeName: $routeName,
+            referrer: $request->header('referer'),
         );
     }
 

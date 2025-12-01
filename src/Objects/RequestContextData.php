@@ -10,5 +10,6 @@ class RequestContextData
         public string $endpoint,
         public ?string $body = null,
         public ?string $routeName = null,
+        public ?string $referrer = null,
     ) {}
 }

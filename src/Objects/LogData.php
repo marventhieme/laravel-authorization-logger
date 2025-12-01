@@ -36,6 +36,7 @@ class LogData
                 'endpoint' => $this->requestContext->endpoint,
                 'body' => $this->requestContext->body,
                 'routeName' => $this->requestContext->routeName,
+                'referrer' => $this->requestContext->referrer,
             ],
         ];
     }

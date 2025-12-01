@@ -32,6 +32,7 @@ class WriteToDatabase implements LogHandler
                 'request_url' => $logData->requestContext->url,
                 'request_endpoint' => $logData->requestContext->endpoint,
                 'request_route_name' => $logData->requestContext->routeName,
+                'request_referrer' => $logData->requestContext->referrer,
                 'request_body' => $logData->requestContext->body,
             ]);
         } catch (\Throwable $e) {

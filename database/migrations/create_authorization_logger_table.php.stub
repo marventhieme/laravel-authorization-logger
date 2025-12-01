@@ -36,6 +36,7 @@ return new class extends Migration
             $table->text('request_url');
             $table->string('request_endpoint');
             $table->string('request_route_name')->nullable()->index();
+            $table->text('request_referrer')->nullable();
             $table->json('request_body')->nullable();
 
             $table->timestamps();
