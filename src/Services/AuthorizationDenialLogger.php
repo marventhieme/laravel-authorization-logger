@@ -183,7 +183,7 @@ class AuthorizationDenialLogger
                 $maxSize = $this->sanitizer->getMaxSizeInKb();
                 $body = "[Request body too large: {$actualSize}KB, limit: {$maxSize}KB]";
             } else {
-                $body = $sanitizedBody;
+                $body = json_encode($sanitizedBody);
             }
         }
 
